@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DecHex Convertor/Calculator</title>
+  <script type="text/javascript">
+    function dec2hex(dec) {
+      return (parseInt(dec)).toString(16);
+    }
+
+    function hex2dec(hex) {
+      return parseInt(hex, 16);
+    }
+  </script>
+</head>
+<body>
+  <form>
+  <input type="text" name="source" placeholder="Please enter number.">
+  <input type="text" name="target" placeholder="You should get result here"><br>
+  <input type="radio" name="orient" value="dec2hex" checked="checked">Decimal to Hex</input><br>
+  <input type="radio" name="orient" value="hex2dec">Hex to Decimal</input><br>
+  <input type="button" value="Submit" onclick="if (orient.value=='dec2hex') {target.value=dec2hex(source.value)} else {target.value=hex2dec(source.value)}">
+  <input type="button" value="Clear" onclick="source.value=''; target.value=''">
+  </form>
+</body>
+</html>
