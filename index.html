@@ -11,6 +11,30 @@
     function hex2dec(hex) {
       return parseInt(hex, 16);
     }
+
+    function hexadd(h1, h2) {
+      return dec2hex(hex2dec(h1) + hex2dec(h2));
+    }
+
+    function hexsub(h1, h2) {
+      return dec2hex(hex2dec(h1) - hex2dec(h2));
+    }
+
+    function hexmul(h1, h2) {
+      return dec2hex(hex2dec(h1) * hex2dec(h2));
+    }
+
+    function hexmsd(h1) {
+      return dec2hex(hex2dec(h1) | parseInt('ffffffff', 16));
+    }
+
+    function hexdiv(h1, h2) {
+      return dec2hex(hex2dec(h1) / hex2dec(h2));
+    }
+
+    function hexmod(h1, h2) {
+      return dec2hex(hex2dec(h1) % hex2dec(h2));
+    }
   </script>
 </head>
 <body>
@@ -21,6 +45,19 @@
   <input type="radio" name="orient" value="hex2dec">Hex to Decimal</input><br>
   <input type="button" value="Submit" onclick="if (orient.value=='dec2hex') {target.value=dec2hex(source.value)} else {target.value=hex2dec(source.value)}">
   <input type="button" value="Clear" onclick="source.value=''; target.value=''">
+  <hr/>
+  <label>HEX calculator</label></br>
+  <input type="text" name="input1" placeholder="Please enter hex number.">
+  <input type="text" name="input2" placeholder="Please enter hex number."><br/>
+  <input type="button" value="Add" onclick="output1.value=hexadd(input1.value, input2.value)">
+  <input type="button" value="Sub" onclick="output1.value=hexsub(input1.value, input2.value)">
+  <input type="button" value="Multiply" onclick="output1.value=hexmul(input1.value, input2.value) /*output2.value=hexmsd(hexmul(input1.value, input2.value))*/">
+  <input type="button" value="Divide" onclick="output1.value=hexdiv(input1.value, input2.value); output2.value=hexmod(input1.value, input2.value)"><br>
+  <input type="text" name="output1" placeholder="You should get result here">
+  <input type="text" name="output2" placeholder="You should get result here">
   </form>
 </body>
 </html>
+
+<!-- Validate the input data. -->
+<!-- The two input text boxes should accept only HEX digits and the result is placed in the 3rd text box. For Multiplication and division use the fourth textbox to display 32 bit of Most Significant Digits during multiplication or reminder during division. -->
