@@ -4,36 +4,111 @@
   <meta charset="utf-8">
   <title>DecHex Convertor/Calculator</title>
   <script type="text/javascript">
+    /*
+     * decimal to hex
+     */
     function dec2hex(dec) {
       return (parseInt(dec)).toString(16);
     }
-
+    /*
+     * hex to decimal
+     */
     function hex2dec(hex) {
       return parseInt(hex, 16);
     }
-
+    /*
+     * hex addition
+     */
     function hexadd(h1, h2) {
       return dec2hex(hex2dec(h1) + hex2dec(h2));
     }
-
+    /*
+     * hex substraction
+     */
     function hexsub(h1, h2) {
       return dec2hex(hex2dec(h1) - hex2dec(h2));
     }
-
+    /*
+     * hex multiplication
+     */
     function hexmul(h1, h2) {
+      var h2len = h2.length;
+      // if the second hex less than or equals 4 digits, multiple directly
+      if (h2len <= 4) {
+        return dec2hex(hex2dec(h1) * hex2dec(h2));
+      }
       return dec2hex(hex2dec(h1) * hex2dec(h2));
+      // otherwise, we need to split the second hex to two parts
+      // avoid the precision overflow issue, such as 0xFFFFFFFF*0xFFFFFFFF,
+      // the correct answer should be 0xffff fffe 0000 0001
+      // however, multiplication with javascript should get 0xffff fffe 0000 0000
+      var p1h2 = h2.substring(0, h2len-4);
+      var p2h2 = h2.substring(h2len-4, h2len);
+      var p1v = dec2hex(hex2dec(h1) * hex2dec(p1h2));
+      var p2v = dec2hex(hex2dec(h1) * hex2dec(p2h2));
+      var p2len = p2v.length;
+      var p1len = p1v.length;
+      var sum = [];
+      var sumlen = Math.max(p1len, p2len - 4) + 4;
+      sum[sumlen] = p2v[p2len-1];
+      sum[sumlen-1] = p2v[p2len-2];
+      sum[sumlen-2] = p2v[p2len-3];
+      sum[sumlen-3] = p2v[p2len-4];
+      var carry = false;
+      for (var i = p2len-4-1, j = p1len-1, k = 4; k < sumlen; i--, j--, k++) {
+        if ( i < 0 && j < 0) break;
+        var bitsum = 0;
+        if ( i < 0 ) {
+          bitsum = hex2dec(p1v[j]);
+        } else if (j < 0 ) {
+          bitsum = hex2dec(p2v[i]);
+        } else {
+          bitsum = hex2dec(p1v[j]) + hex2dec(p2v[i]);
+        }
+        if (carry === true ) {
+          bitsum = bitsum + 1;
+          carry = false;
+        }
+        var hexbitsum = dec2hex(bitsum);
+        sum[sumlen-k] = hexbitsum.substr(hexbitsum.length - 1);
+        if (bitsum >= 16) carry = true;
+      }
+      if (carry == true) {
+        sum[0] = '1';
+      } else sum[0] = '';
+      return sum.join('');
     }
-
+    /*
+     * hex most significant digits, 8 * 4 bits
+     */
     function hexmsd(h1) {
-      return dec2hex(hex2dec(h1) | parseInt('ffffffff', 16));
+      return h1.substring(0, 8);
     }
-
+    /*
+     * hex division
+     */
     function hexdiv(h1, h2) {
       return dec2hex(hex2dec(h1) / hex2dec(h2));
     }
-
+    /*
+     * hex modulor
+     */
     function hexmod(h1, h2) {
       return dec2hex(hex2dec(h1) % hex2dec(h2));
+    }
+    /*
+     * hex validation, 8 digits maximum
+     */
+    function isvalidhexmax8digits(hex) {
+      if(hex.search(/^[0-9A-F]{1,8}$/gi) !== -1) { return true; }
+      else { return false; }
+    }
+    /*
+     * decimal validation, 10 digits maximum
+     */
+    function isvaliddecimal10digits(dec) {
+      if(dec.search(/^[0-9]{1,10}$/gi) !== -1) { return true; }
+      else { return false; }
     }
   </script>
 </head>
@@ -43,21 +118,23 @@
   <input type="text" name="target" placeholder="You should get result here"><br>
   <input type="radio" name="orient" value="dec2hex" checked="checked">Decimal to Hex</input><br>
   <input type="radio" name="orient" value="hex2dec">Hex to Decimal</input><br>
-  <input type="button" value="Submit" onclick="if (orient.value=='dec2hex') {target.value=dec2hex(source.value)} else {target.value=hex2dec(source.value)}">
+  <!-- validate input decimal, when converting decimal to hex; validate input hexadecimal, when converting hex to decimal -->
+  <input type="button" value="Submit" onclick="if (orient.value=='dec2hex') {if(isvaliddecimal10digits(source.value)) {target.value=dec2hex(source.value)} else {alert('Please check input, only accept DEC, maximum 10 digits')}} else {if(isvalidhexmax8digits(source.value)) {target.value=hex2dec(source.value)} else {alert('Please check input, only accept HEX, maximum 8 digits')}}">
   <input type="button" value="Clear" onclick="source.value=''; target.value=''">
   <hr/>
   <label>HEX calculator</label></br>
   <input type="text" name="input1" placeholder="Please enter hex number.">
   <input type="text" name="input2" placeholder="Please enter hex number."><br/>
-  <input type="button" value="Add" onclick="output1.value=hexadd(input1.value, input2.value)">
-  <input type="button" value="Sub" onclick="output1.value=hexsub(input1.value, input2.value)">
-  <input type="button" value="Multiply" onclick="output1.value=hexmul(input1.value, input2.value) /*output2.value=hexmsd(hexmul(input1.value, input2.value))*/">
-  <input type="button" value="Divide" onclick="output1.value=hexdiv(input1.value, input2.value); output2.value=hexmod(input1.value, input2.value)"><br>
+  <!-- validate two input hexadecimals -->
+  <input type="button" value="Add" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexadd(input1.value, input2.value); output2.value=''} else { alert('Please check input, only accept HEX, maximum 8 digits.')}">
+  <!-- validate two input hexadecimals -->
+  <input type="button" value="Sub" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexsub(input1.value, input2.value); output2.value=''} else { alert('Please check input, only accept HEX, maximum 8 digits.')}">
+  <!-- validate two input hexadecimals -->
+  <input type="button" value="Multiply" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexmul(input1.value, input2.value); output2.value=hexmsd(hexmul(input1.value, input2.value))} else { alert('Please check input, only accept HEX, maximum 8 digits.')}">
+  <!-- validate two input hexadecimals -->
+  <input type="button" value="Divide" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexdiv(input1.value, input2.value); output2.value=hexmod(input1.value, input2.value)} else { alert('Please check input, only accept HEX, maximum 8 digits.')}"><br>
   <input type="text" name="output1" placeholder="You should get result here">
   <input type="text" name="output2" placeholder="You should get result here">
   </form>
 </body>
 </html>
-
-<!-- Validate the input data. -->
-<!-- The two input text boxes should accept only HEX digits and the result is placed in the 3rd text box. For Multiplication and division use the fourth textbox to display 32 bit of Most Significant Digits during multiplication or reminder during division. -->
