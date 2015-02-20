@@ -37,7 +37,6 @@
       if (h2len <= 4) {
         return dec2hex(hex2dec(h1) * hex2dec(h2));
       }
-      return dec2hex(hex2dec(h1) * hex2dec(h2));
       // otherwise, we need to split the second hex to two parts
       // avoid the precision overflow issue, such as 0xFFFFFFFF*0xFFFFFFFF,
       // the correct answer should be 0xffff fffe 0000 0001
