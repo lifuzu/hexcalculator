@@ -1,8 +1,5 @@
-Due date: Feb 22, 2015
 
-Points: 10
-
-The  first part of the assignment is to develop a 32 bit Digital to Hex ( and back) Converter . The second part is to develop a 32 X 32 bit HEX calculator. The two parts stay on one webpage. The code should be well organized and documented. You need to code on your own. If ITU/College finds the code is copied from another source, you get '0' points.
+The first part of the assignment is to develop a 32 bit Digital to Hex ( and back) Converter . The second part is to develop a 32 X 32 bit HEX calculator. The two parts stay on one webpage. The code should be well organized and documented. You need to code on your own. If ITU/College finds the code is copied from another source, you get '0' points.
 
 Develop a html code with embedded javascript for the above task. The program should accept a 8 hex digit and convert it to  decimal number and viceversa. There will be two text boxes, two radio (option) buttons and a submit and a clear  button.
 
@@ -12,6 +9,5 @@ In continuation of the above project  , Add a 32 X 32 bit Hex Adder, a Subtracto
 
 The bottom part contains 4 text boxes ( two for input data and two for the result) and two buttons - Clear & Submit. There are 4 option (radio) buttons to choose any one of the four mathematical operations ( Add, Sub, Multiply and Divide). Validate the input data. The two input text boxes should accept only HEX digits and the result is placed in the 3rd text box. For Multiplication and division use the fourth textbox to display 32 bit of Most Significant Digits during multiplication or reminder during division. Make the page look neat, with a Title, Boundary lines for each of the two functions, Centered text boxes and proportionally positioned radio buttons, Submit buttons and Clear button. Add good background and foreground colors, make your webpage colorful and use medium size fonts. The program should repeat conversion operation till the user closes the browser.
 
- You may add any other feature to make your web page look good. If you have any questions let me know.
+You may add any other feature to make your web page look good. If you have any questions let me know.
 
-Thank you
