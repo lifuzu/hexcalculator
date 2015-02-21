@@ -1,5 +1,3 @@
-My Hex Converter/Calculator Webpage Instructions
-
 Due date: Feb 22, 2015
 
 Points: 10

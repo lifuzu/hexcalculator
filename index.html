@@ -4,6 +4,10 @@
   <meta charset="utf-8">
   <title>DecHex Convertor/Calculator</title>
   <script type="text/javascript">
+    ////////////////////////
+    // Fuzu Li (87591)    //
+    // Februray 20, 2015  //
+    ////////////////////////
     /*
      * decimal to hex
      */
@@ -110,30 +114,61 @@
       else { return false; }
     }
   </script>
+  <style>
+    form {
+      border-style: dotted;
+      border-width: 1px;
+      padding: 5px;
+      margin: 5px;
+
+    }
+    div {
+      font: 15px arial, sans-serif;
+      color: rgb(0,0,255);
+      background: url(img_flwr.gif);
+      background-repeat: no-repeat;
+      background-origin: content-box;
+      background-position: center;
+      background-color: rgb(204,255,102);
+    }
+    .button {
+      color: rgb(0,0,255);
+      font: 20px arial, sans-serif;
+    }
+    .text {
+      color: rgb(0,0,255);
+      font: 15px arial, sans-serif;
+    }
+  </style>
 </head>
 <body>
-  <form>
-  <input type="text" name="source" placeholder="Please enter number.">
-  <input type="text" name="target" placeholder="You should get result here"><br>
-  <input type="radio" name="orient" value="dec2hex" checked="checked">Decimal to Hex</input><br>
-  <input type="radio" name="orient" value="hex2dec">Hex to Decimal</input><br>
-  <!-- validate input decimal, when converting decimal to hex; validate input hexadecimal, when converting hex to decimal -->
-  <input type="button" value="Submit" onclick="if (orient.value=='dec2hex') {if(isvaliddecimal10digits(source.value)) {target.value=dec2hex(source.value)} else {alert('Please check input, only accept DEC, maximum 10 digits')}} else {if(isvalidhexmax8digits(source.value)) {target.value=hex2dec(source.value)} else {alert('Please check input, only accept HEX, maximum 8 digits')}}">
-  <input type="button" value="Clear" onclick="source.value=''; target.value=''">
-  <hr/>
-  <label>HEX calculator</label></br>
-  <input type="text" name="input1" placeholder="Please enter hex number.">
-  <input type="text" name="input2" placeholder="Please enter hex number."><br/>
-  <!-- validate two input hexadecimals -->
-  <input type="button" value="Add" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexadd(input1.value, input2.value); output2.value=''} else { alert('Please check input, only accept HEX, maximum 8 digits.')}">
-  <!-- validate two input hexadecimals -->
-  <input type="button" value="Sub" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexsub(input1.value, input2.value); output2.value=''} else { alert('Please check input, only accept HEX, maximum 8 digits.')}">
-  <!-- validate two input hexadecimals -->
-  <input type="button" value="Multiply" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexmul(input1.value, input2.value); output2.value=hexmsd(hexmul(input1.value, input2.value))} else { alert('Please check input, only accept HEX, maximum 8 digits.')}">
-  <!-- validate two input hexadecimals -->
-  <input type="button" value="Divide" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexdiv(input1.value, input2.value); output2.value=hexmod(input1.value, input2.value)} else { alert('Please check input, only accept HEX, maximum 8 digits.')}"><br>
-  <input type="text" name="output1" placeholder="You should get result here">
-  <input type="text" name="output2" placeholder="You should get result here">
-  </form>
+  <div>
+    <form class='converter'>
+      <label>HEX <-> DEC Converter</label></br>
+      <input class='text' type="text" name="source" placeholder="Please enter number.">
+      <input class='text' type="text" name="target" placeholder="You should get result here"><br>
+      <input type="radio" name="orient" value="dec2hex" checked="checked">Decimal to Hex</input><br>
+      <input type="radio" name="orient" value="hex2dec">Hex to Decimal</input><br>
+      <!-- validate input decimal, when converting decimal to hex; validate input hexadecimal, when converting hex to decimal -->
+      <input class='button' type="button" value="Submit" onclick="if (orient.value=='dec2hex') {if(isvaliddecimal10digits(source.value)) {target.value=dec2hex(source.value)} else {alert('Please check input, only accept DEC, maximum 10 digits')}} else {if(isvalidhexmax8digits(source.value)) {target.value=hex2dec(source.value)} else {alert('Please check input, only accept HEX, maximum 8 digits')}}">
+      <input class='button' type="button" value="Clear" onclick="source.value=''; target.value=''">
+    </form>
+    <hr/>
+    <form class='calculator'>
+      <label>HEX Calculator</label></br>
+      <input class='text' type="text" name="input1" placeholder="Please enter hex number.">
+      <input class='text' type="text" name="input2" placeholder="Please enter hex number."><br/>
+      <!-- validate two input hexadecimals -->
+      <input class='button' type="button" value="+Add" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexadd(input1.value, input2.value); output2.value=''} else { alert('Please check input, only accept HEX, maximum 8 digits.')}">
+      <!-- validate two input hexadecimals -->
+      <input class='button' type="button" value="-Sub" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexsub(input1.value, input2.value); output2.value=''} else { alert('Please check input, only accept HEX, maximum 8 digits.')}">
+      <!-- validate two input hexadecimals -->
+      <input class='button' type="button" value="*Multiply" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexmul(input1.value, input2.value); output2.value=hexmsd(hexmul(input1.value, input2.value))} else { alert('Please check input, only accept HEX, maximum 8 digits.')}">
+      <!-- validate two input hexadecimals -->
+      <input class='button' type="button" value="/Divide" onclick="if(isvalidhexmax8digits(input1.value) && isvalidhexmax8digits(input2.value) ) {output1.value=hexdiv(input1.value, input2.value); output2.value=hexmod(input1.value, input2.value)} else { alert('Please check input, only accept HEX, maximum 8 digits.')}"><br>
+      <input class='text' type="text" name="output1" placeholder="You should get result here">
+      <input class='text' type="text" name="output2" placeholder="You should get result here">
+    </form>
+  </div>
 </body>
 </html>
